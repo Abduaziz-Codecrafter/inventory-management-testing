@@ -1,3 +1,46 @@
+Inventory Management and Server System
+Overview
+
+This project consists of two main components:
+
+    Inventory Management Frontend: A modern web application built with React and Next.js to manage inventory data, visualize trends, and provide interactive features for users.
+    Backend Server: A robust server built using Node.js and Express, providing APIs for inventory data handling, authentication, and database interactions.
+
+The system is designed to be scalable, efficient, and secure, utilizing industry-standard tools and frameworks for both frontend and backend development.
+Key Features
+Inventory Management (Frontend)
+
+    Interactive Data Grid: Powered by Material-UI and supports sorting, filtering, and searching.
+    Data Visualization: Built with Recharts to provide insights through charts and graphs.
+    State Management: Efficiently handled using Redux Toolkit with persistence for user sessions.
+    Responsive Design: Ensures compatibility across devices with Tailwind CSS and Material-UI.
+    Authentication: Seamless integration with the backend for user authentication and role management.
+
+Server (Backend)
+
+    Express Framework: Provides a lightweight and fast backend architecture.
+    Prisma ORM: Simplifies database management with schema-driven migrations and queries.
+    Secure API: Protected using Helmet and CORS for secure data exchange.
+    Middleware Support: Includes logging, error handling, and request parsing with tools like Morgan and Body-Parser.
+    Development Utilities: Tools like Nodemon and Concurrently enable faster development and testing.
+
+Technology Stack
+Frontend
+
+    React & Next.js: For dynamic UI and server-side rendering.
+    Material-UI & TailwindCSS: For styling and design.
+    Redux Toolkit: For state management.
+    Recharts: For data visualization.
+    Axios: For handling API requests.
+
+Backend
+
+    Node.js & Express: For server-side logic and APIs.
+    Prisma: For database operations.
+    Helmet & CORS: For security enhancements.
+    Morgan: For request logging.
+
+
 Dependencies and Development Tools
 Inventory Management Project
 Dependencies
