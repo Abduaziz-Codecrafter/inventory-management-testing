@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
-// Initialize a new Prisma Client instance for database interactions
+// Initialize Prisma Client
 const prisma = new PrismaClient();
 
 /**
@@ -16,23 +16,48 @@ export const getExpensesByCategory = async (
   res: Response
 ): Promise<void> => {
   try {
-    // Fetch all expenses grouped by category, ordered by date descending
+    // Destructure and validate query parameters
+    const { startDate, endDate, category } = req.query;
+
+    // Parse dates and set filters
+    const filters: { [key: string]: any } = {};
+
+    if (startDate) {
+      filters.date = { ...filters.date, gte: new Date(startDate as string) };
+    }
+    if (endDate) {
+      filters.date = { ...filters.date, lte: new Date(endDate as string) };
+    }
+    if (category && category !== "All") {
+      filters.category = category;
+    }
+
+    // Fetch filtered data grouped by category, ordered by date descending
     const expenseByCategorySummaryRaw = await prisma.expenseByCategory.findMany({
+      where: filters,
       orderBy: {
         date: "desc",
       },
     });
 
-    // Convert the amount field from a numeric type to a string for each expense category
+    // Format the amount field to ensure consistency
     const expenseByCategorySummary = expenseByCategorySummaryRaw.map((item) => ({
       ...item,
       amount: item.amount.toString(),
     }));
 
-    // Send the categorized expenses as a JSON response
-    res.json(expenseByCategorySummary);
+    // Send the response
+    res.status(200).json(expenseByCategorySummary);
   } catch (error) {
-    // Handle any errors that occur during data retrieval
+    console.error("Error fetching expenses by category:", error);
     res.status(500).json({ message: "Error retrieving expenses by category" });
   }
 };
+
+/**
+ * Close Prisma Client when the application is shutting down.
+ */
+process.on("SIGINT", async () => {
+  await prisma.$disconnect();
+  process.exit(0);
+});

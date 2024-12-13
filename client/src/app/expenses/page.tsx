@@ -15,20 +15,22 @@ import {
   Tooltip,
 } from "recharts";
 
-// Move classNames outside to prevent re-creation on every render
+// Class names for styling
 const classNames = {
   label: "block text-sm font-medium text-gray-700",
   selectInput:
     "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md",
+  filterContainer: "bg-gray-50 border border-gray-300 p-4 rounded-lg",
+  button:
+    "mt-4 w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
 };
 
-// Deterministic color palette based on category name
-const categoryColors: { [key: string]: string } = {
+const categoryColors: Record<string, string> = {
   All: "#8884d8",
   Office: "#82ca9d",
   Professional: "#ffc658",
   Salaries: "#d0ed57",
-  // Add more categories as needed
+  // Extend with more categories if needed
 };
 
 type AggregatedDataItem = {
@@ -38,22 +40,24 @@ type AggregatedDataItem = {
 };
 
 const Expenses = () => {
+  // State variables for managing active pie slice, selected category, and date filters
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
+  // Fetch data using the custom hook
   const {
     data: expensesData,
     isLoading,
     isError,
   } = useGetExpensesByCategoryQuery();
 
-  // Use useMemo to memoize expenses
+  // Memoize the raw expenses data to avoid unnecessary re-renders
   const expenses = useMemo(() => expensesData ?? [], [expensesData]);
 
-  // Aggregated data with optimized filtering and deterministic colors
-  const aggregatedData: AggregatedDataItem[] = useMemo(() => {
+  // Aggregate and filter data based on category and date range
+  const aggregatedData = useMemo(() => {
     return expenses
       .filter((data: ExpenseByCategorySummary) => {
         const matchesCategory =
@@ -61,11 +65,7 @@ const Expenses = () => {
 
         if (startDate && endDate) {
           const dataDate = new Date(data.date);
-          return (
-            matchesCategory &&
-            dataDate >= startDate &&
-            dataDate <= endDate
-          );
+          return matchesCategory && dataDate >= startDate && dataDate <= endDate;
         }
 
         return matchesCategory;
@@ -75,8 +75,8 @@ const Expenses = () => {
         if (!acc[data.category]) {
           acc[data.category] = {
             name: data.category,
-            amount: amount,
-            color: categoryColors[data.category] || "#000000", // Default color if not specified
+            amount,
+            color: categoryColors[data.category] || "#000000",
           };
         } else {
           acc[data.category].amount += amount;
@@ -85,40 +85,39 @@ const Expenses = () => {
       }, {});
   }, [expenses, selectedCategory, startDate, endDate]);
 
-  const aggregatedDataArray = useMemo(() => Object.values(aggregatedData), [
-    aggregatedData,
-  ]);
+  // Convert aggregated data object to an array for the chart
+  const aggregatedDataArray = useMemo(() => Object.values(aggregatedData), [aggregatedData]);
 
+  // Display loading message while fetching data
   if (isLoading) {
-    return <div className="py-4">Loading...</div>;
+    return <div className="py-4 text-center text-gray-500">Loading data...</div>;
   }
 
+  // Handle errors gracefully
   if (isError || !expensesData) {
     return (
       <div className="text-center text-red-500 py-4">
-        Failed to fetch expenses
+        Failed to load expense data. Please try again later.
       </div>
     );
   }
 
   return (
-    <div>
-      {/* HEADER */}
-      <div className="mb-5">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* HEADER Section */}
+      <div className="mb-5 text-center">
         <Header name="Expenses" />
         <p className="text-sm text-gray-500">
-          A visual representation of expenses over time.
+          A visual breakdown of your expenses by category.
         </p>
       </div>
 
-      {/* FILTERS */}
-      <div className="flex flex-col md:flex-row justify-between gap-4">
-        <div className="w-full md:w-1/3 bg-white shadow rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4">
-            Filter by Category and Date
-          </h3>
+      {/* FILTERS Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className={classNames.filterContainer}>
+          <h3 className="text-lg font-semibold mb-4">Filters</h3>
           <div className="space-y-4">
-            {/* CATEGORY */}
+            {/* Dropdown for Category Selection */}
             <div>
               <label htmlFor="category" className={classNames.label}>
                 Category
@@ -130,14 +129,13 @@ const Expenses = () => {
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
-                <option>All</option>
-                <option>Office</option>
-                <option>Professional</option>
-                <option>Salaries</option>
-                {/* Dynamically render categories if needed */}
+                {Object.keys(categoryColors).map((category) => (
+                  <option key={category}>{category}</option>
+                ))}
               </select>
             </div>
-            {/* START DATE */}
+
+            {/* Start Date Filter */}
             <div>
               <label htmlFor="start-date" className={classNames.label}>
                 Start Date
@@ -147,14 +145,11 @@ const Expenses = () => {
                 id="start-date"
                 name="start-date"
                 className={classNames.selectInput}
-                onChange={(e) =>
-                  setStartDate(
-                    e.target.value ? new Date(e.target.value) : null
-                  )
-                }
+                onChange={(e) => setStartDate(e.target.value ? new Date(e.target.value) : null)}
               />
             </div>
-            {/* END DATE */}
+
+            {/* End Date Filter */}
             <div>
               <label htmlFor="end-date" className={classNames.label}>
                 End Date
@@ -164,37 +159,46 @@ const Expenses = () => {
                 id="end-date"
                 name="end-date"
                 className={classNames.selectInput}
-                onChange={(e) =>
-                  setEndDate(e.target.value ? new Date(e.target.value) : null)
-                }
+                onChange={(e) => setEndDate(e.target.value ? new Date(e.target.value) : null)}
               />
             </div>
+
+            {/* Reset Filters Button */}
+            <button
+              type="button"
+              className={classNames.button}
+              onClick={() => {
+                setStartDate(null);
+                setEndDate(null);
+                setSelectedCategory("All");
+              }}
+            >
+              Reset Filters
+            </button>
           </div>
         </div>
-        {/* PIE CHART */}
-        <div className="flex-grow bg-white shadow rounded-lg p-4 md:p-6">
-          <ResponsiveContainer width="100%" height={400}>
+
+        {/* PIE CHART Section */}
+        <div className="col-span-2 bg-white shadow rounded-lg p-6 md:p-8 lg:p-10">
+          <h3 className="text-lg font-semibold mb-4">Expense Breakdown</h3>
+          <ResponsiveContainer width="120%" height={400}>
             <PieChart>
               <Pie
                 data={aggregatedDataArray}
                 cx="50%"
                 cy="50%"
-                label
+                label={(entry) => `${entry.name}: ${entry.amount}`}
                 outerRadius={150}
                 fill="#8884d8"
                 dataKey="amount"
                 onMouseEnter={(_, index) => setActiveIndex(index)}
               >
-                {aggregatedDataArray.map(
-                  (entry: AggregatedDataItem, index: number) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={
-                        index === activeIndex ? "#1D4ED8" : entry.color
-                      }
-                    />
-                  )
-                )}
+                {aggregatedDataArray.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={index === activeIndex ? "#1D4ED8" : entry.color}
+                  />
+                ))}
               </Pie>
               <Tooltip />
               <Legend />
