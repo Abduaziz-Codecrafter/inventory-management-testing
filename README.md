@@ -1,109 +1,120 @@
-Inventory Management and Server System
-Overview
+# Inventory Management and Server System
 
-This project consists of two main components:
+## Overview
 
-    Inventory Management Frontend: A modern web application built with React and Next.js to manage inventory data, visualize trends, and provide interactive features for users.
-    Backend Server: A robust server built using Node.js and Express, providing APIs for inventory data handling, authentication, and database interactions.
+The **Inventory Management and Server System** is a scalable, efficient, and secure full-stack application designed to manage inventory data, visualize trends, and provide interactive user features. It comprises two main components:
 
-The system is designed to be scalable, efficient, and secure, utilizing industry-standard tools and frameworks for both frontend and backend development.
-Key Features
-Inventory Management (Frontend)
+1. **Inventory Management Frontend**: A modern web application built with React and Next.js for managing inventory data and providing rich user interactions.
+2. **Backend Server**: A robust server built using Node.js and Express, providing APIs for inventory management, authentication, and database operations.
 
-    Interactive Data Grid: Powered by Material-UI and supports sorting, filtering, and searching.
-    Data Visualization: Built with Recharts to provide insights through charts and graphs.
-    State Management: Efficiently handled using Redux Toolkit with persistence for user sessions.
-    Responsive Design: Ensures compatibility across devices with Tailwind CSS and Material-UI.
-    Authentication: Seamless integration with the backend for user authentication and role management.
+This project demonstrates best practices in full-stack development and leverages industry-standard tools and frameworks.
 
-Server (Backend)
+---
 
-    Express Framework: Provides a lightweight and fast backend architecture.
-    Prisma ORM: Simplifies database management with schema-driven migrations and queries.
-    Secure API: Protected using Helmet and CORS for secure data exchange.
-    Middleware Support: Includes logging, error handling, and request parsing with tools like Morgan and Body-Parser.
-    Development Utilities: Tools like Nodemon and Concurrently enable faster development and testing.
+## Key Features
 
-Technology Stack
-Frontend
+### Frontend (Inventory Management)
+- **Interactive Data Grid**: Sort, filter, and search functionality powered by Material-UI.
+- **Data Visualization**: Generate insightful charts and graphs using Recharts.
+- **State Management**: Efficiently managed with Redux Toolkit, including session persistence.
+- **Responsive Design**: Cross-device compatibility achieved with Tailwind CSS and Material-UI.
+- **Authentication**: Secure user authentication and role management integrated with the backend.
 
-    React & Next.js: For dynamic UI and server-side rendering.
-    Material-UI & TailwindCSS: For styling and design.
-    Redux Toolkit: For state management.
-    Recharts: For data visualization.
-    Axios: For handling API requests.
+### Backend (Server)
+- **Express Framework**: Lightweight and efficient backend architecture.
+- **Prisma ORM**: Simplifies database operations with schema-driven migrations and queries.
+- **Secure API**: Implements security measures using Helmet and CORS.
+- **Middleware Support**: Logging, error handling, and request parsing via Morgan and Body-Parser.
+- **Development Utilities**: Tools like Nodemon and Concurrently streamline development and testing.
 
-Backend
+---
 
-    Node.js & Express: For server-side logic and APIs.
-    Prisma: For database operations.
-    Helmet & CORS: For security enhancements.
-    Morgan: For request logging.
+## Technology Stack
 
+### Frontend
+- **Frameworks & Libraries**: React, Next.js
+- **Styling**: Material-UI, TailwindCSS
+- **State Management**: Redux Toolkit
+- **Data Visualization**: Recharts
+- **HTTP Requests**: Axios
 
-Dependencies and Development Tools
-Inventory Management Project
-Dependencies
+### Backend
+- **Server**: Node.js, Express
+- **Database Management**: Prisma ORM
+- **Security**: Helmet, CORS
+- **Utilities**: Morgan (logging), Concurrently
 
-These are the core libraries and frameworks used for building the Inventory Management frontend application:
+---
 
-    @emotion/react: A library for writing CSS styles with JavaScript.
-    @emotion/styled: Styled-components library based on Emotion.
-    @mui/material: A popular React UI framework following Google’s Material Design.
-    @mui/x-data-grid: A powerful data grid component for Material UI.
-    @reduxjs/toolkit: A standardized way to write Redux logic and manage state.
-    axios: A promise-based HTTP client for API calls.
-    dotenv: A library for managing environment variables.
-    lucide-react: A collection of beautiful icons for React.
-    next: A React framework for server-side rendering and building web applications.
-    numeral: A library for formatting numbers as strings (e.g., currency, percentages).
-    react: The core library for building UI components.
-    react-dom: React library for working with the DOM.
-    react-redux: Official bindings for using Redux with React.
-    recharts: A charting library for building interactive visualizations.
-    redux-persist: A library for persisting and rehydrating Redux state.
-    uuid: A library for generating unique identifiers.
+## Dependencies and Development Tools
 
-Development Dependencies
+### Frontend Project
 
-These are tools used during the development process:
+#### Core Dependencies
+- `@emotion/react` & `@emotion/styled`: Styling utilities for React.
+- `@mui/material` & `@mui/x-data-grid`: Material-UI components for design and data grids.
+- `@reduxjs/toolkit` & `redux-persist`: Simplified state management and persistence.
+- `axios`: HTTP client for API communication.
+- `next`: Framework for server-side rendering.
+- `recharts`: Library for data visualization.
+- `uuid`: Unique identifier generation.
 
-    @types/node: TypeScript definitions for Node.js.
-    @types/numeral: TypeScript definitions for Numeral.js.
-    @types/react: TypeScript definitions for React.
-    @types/react-dom: TypeScript definitions for ReactDOM.
-    @types/uuid: TypeScript definitions for UUID.
-    eslint: A tool for identifying and fixing JavaScript code issues.
-    eslint-config-next: ESLint rules specific to Next.js.
-    postcss: A tool for transforming CSS with plugins.
-    tailwindcss: A utility-first CSS framework.
-    tw-colors: A plugin for managing color palettes in TailwindCSS.
-    typescript: A superset of JavaScript adding static types.
+#### Development Dependencies
+- TypeScript support libraries (`@types/*`)
+- `eslint`: Code quality and linting.
+- `tailwindcss` & `postcss`: CSS utilities and plugins.
+- `typescript`: Static type checking.
 
-Server Project
-Dependencies
+### Backend Project
 
-These libraries are used to build the Server backend application:
+#### Core Dependencies
+- `@prisma/client`: Database ORM.
+- `body-parser`: Parses incoming request bodies.
+- `concurrently`: Runs multiple commands concurrently.
+- `dotenv`: Environment variable management.
+- `express`: Backend framework.
+- `helmet`: Security middleware.
+- `morgan`: Request logging middleware.
 
-    @prisma/client: The Prisma ORM client for database queries.
-    body-parser: Middleware for parsing incoming request bodies in Express.
-    concurrently: A utility for running multiple commands concurrently.
-    cors: Middleware for enabling Cross-Origin Resource Sharing.
-    dotenv: A library for managing environment variables.
-    express: A minimal and flexible web application framework for Node.js.
-    helmet: A middleware for setting HTTP headers to secure your app.
-    morgan: A logging middleware for HTTP requests.
-    prisma: The ORM library for database migrations and schema management.
-    rimraf: A tool for deep deletion of files and directories.
+#### Development Dependencies
+- TypeScript support libraries (`@types/*`)
+- `nodemon`: Monitors for changes and restarts the server.
+- `ts-node`: TypeScript execution engine.
+- `typescript`: Static type checking.
 
-Development Dependencies
+---
 
-These tools are used during the development process:
+## Installation and Setup
 
-    @types/cors: TypeScript definitions for CORS.
-    @types/express: TypeScript definitions for Express.
-    @types/morgan: TypeScript definitions for Morgan.
-    @types/node: TypeScript definitions for Node.js.
-    nodemon: A utility that monitors changes in files and automatically restarts the server.
-    ts-node: A TypeScript execution engine and REPL for Node.js.
-    typescript: A superset of JavaScript adding static types.
+### Prerequisites
+- Node.js (v14+)
+- npm or Yarn
+- PostgreSQL (for database)
+
+### Frontend Setup
+1. Clone the repository.
+2. Navigate to the `frontend` directory.
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+### Backend Setup
+1. Navigate to the `backend` directory.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure the `.env` file with database credentials.
+4. Run Prisma migrations:
+   ```bash
+   npx prisma migrate dev
+   ```
+5. Start the server:
+   ```bash
+   npm run dev
+   ```
