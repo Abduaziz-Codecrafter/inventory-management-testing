@@ -1,3 +1,10 @@
+
+![drawSQL-image-export-2025-01-23](https://github.com/user-attachments/assets/930b5e38-a4da-42fa-9e81-5389ed8cce64)
+
+![Screenshot 2025-01-23 at 8 48 26 AM](https://github.com/user-attachments/assets/f9ae04f3-2a3a-4d7a-9163-c11b21116096)
+
+
+
 # Inventory Management and Server System
 
 ## Overview
